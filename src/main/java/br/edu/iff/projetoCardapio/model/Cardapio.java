@@ -1,16 +1,20 @@
 package br.edu.iff.projetoCardapio.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,8 +35,8 @@ public class Cardapio implements Serializable {
     @Column(nullable = false, length = 15, updatable = true)
     @Enumerated(EnumType.STRING)
     private TipoCardapioEnum tipo;
-    
-    private List<Refeicao> refeicoes;   
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Refeicao> refeicoes = new ArrayList<>();   
 
     public Long getId() {
         return id;
