@@ -4,14 +4,32 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+@Entity
 public class Cardapio implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Calendar data;
+    @Column(nullable = false, updatable = true)
+    @Temporal(TemporalType.DATE)
+    private Calendar data_;
+    @Column(nullable = false, length = 20, updatable = true)
     private String abertura;
+    @Column(nullable = false, length = 20, updatable = true)
     private String encerramento;
+    @Column(nullable = false, length = 15, updatable = true)
+    @Enumerated(EnumType.STRING)
     private TipoCardapioEnum tipo;
     
     private List<Refeicao> refeicoes;   
@@ -25,11 +43,11 @@ public class Cardapio implements Serializable {
     }
 
     public Calendar getData() {
-        return data;
+        return data_;
     }
 
     public void setData(Calendar data) {
-        this.data = data;
+        this.data_ = data;
     }
 
     public String getAbertura() {
