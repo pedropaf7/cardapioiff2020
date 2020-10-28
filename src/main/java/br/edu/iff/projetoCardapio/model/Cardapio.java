@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -35,7 +36,7 @@ public class Cardapio implements Serializable {
     @Column(nullable = false, length = 15, updatable = true)
     @Enumerated(EnumType.STRING)
     private TipoCardapioEnum tipo;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Refeicao> refeicoes = new ArrayList<>();   
 
     public Long getId() {

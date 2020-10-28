@@ -24,9 +24,9 @@ public class Usuario implements Serializable {
     private String nome;
     @Column(nullable = false, length = 30, updatable = true)
     private String funcao;
-   @Column(nullable = false, length = 50, unique = true, updatable = false)
+    @Column(nullable = false, length = 50, unique = true, updatable = false)
     private String email;
-   @Column(nullable = false, length = 255, updatable = true)
+    @Column(nullable = false, length = 255, updatable = true)
     private String senha;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Cardapio> cardapios = new ArrayList<>();
