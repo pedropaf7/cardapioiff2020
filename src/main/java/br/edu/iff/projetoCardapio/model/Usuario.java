@@ -1,5 +1,7 @@
 package br.edu.iff.projetoCardapio.model;
 
+import br.edu.iff.projetoCardapio.annotation.EmailValidation;
+import br.edu.iff.projetoCardapio.annotation.FuncaoValidation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,11 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 30, updatable = true)
     @NotBlank(message = "Função obrigatória!")
     @Length(max = 50, message = "Função deve ter no máximo 50 caracteres!")
+    @FuncaoValidation
     private String funcao;
     @Column(nullable = false, length = 50, unique = true, updatable = false)
     @NotBlank(message = "E-mail obrigatório!")
-    @Email
+    @EmailValidation
     private String email;
     @Column(nullable = false, length = 255, updatable = true)
     @NotBlank(message = "Senha obrigatória!")
