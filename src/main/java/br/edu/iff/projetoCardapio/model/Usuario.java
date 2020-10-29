@@ -12,6 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Usuario implements Serializable {
@@ -21,14 +26,23 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 50, updatable = true)
+    @NotBlank(message = "Nome obrigatório!")
+    @Length(max = 50, message = "Nome deve ter no máximo 50 caracteres!")
     private String nome;
     @Column(nullable = false, length = 30, updatable = true)
+    @NotBlank(message = "Função obrigatória!")
+    @Length(max = 50, message = "Função deve ter no máximo 50 caracteres!")
     private String funcao;
     @Column(nullable = false, length = 50, unique = true, updatable = false)
+    @NotBlank(message = "E-mail obrigatório!")
+    @Email
     private String email;
     @Column(nullable = false, length = 255, updatable = true)
+    @NotBlank(message = "Senha obrigatória!")
+    @Length(min = 8, message = "Senha deve ter no mínimo 8 caracteres!")
     private String senha;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @Valid
     private List<Cardapio> cardapios = new ArrayList<>();
 
     public Long getId() {

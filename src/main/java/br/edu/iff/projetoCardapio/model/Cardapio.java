@@ -14,10 +14,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Cardapio implements Serializable {
@@ -28,15 +36,27 @@ public class Cardapio implements Serializable {
     private Long id;
     @Column(nullable = false, updatable = true)
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "Data do cardápio deve ser obrigatória!")
+    @FutureOrPresent(message = "Data do cardápio deve ser no presente ou futuro")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar data_;
     @Column(nullable = false, length = 20, updatable = true)
+    @NotBlank(message = "Hora de abertura obrigatória!")
+    @Length(max = 50, message = "Hora de abertura deve ter no máximo 20 caracteres!")
     private String abertura;
     @Column(nullable = false, length = 20, updatable = true)
+    @NotBlank(message = "Hora de encerramento obrigatória!")
+    @Length(max = 50, message = "Hora de encerramento deve ter no máximo 20 caracteres!")
     private String encerramento;
     @Column(nullable = false, length = 15, updatable = true)
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Tipo de cardápio deve ser obrigatório!")
+    @Length(max = 15, message = "Tipo de cardápio deve ter no máximo 15 caracteres!")
     private TipoCardapioEnum tipo;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_cardapio", nullable = false)
+    @Size(min = 1, message = "Cardápio deve ter pelo menos uma refeição")
+    @Valid
     private List<Refeicao> refeicoes = new ArrayList<>();   
 
     public Long getId() {

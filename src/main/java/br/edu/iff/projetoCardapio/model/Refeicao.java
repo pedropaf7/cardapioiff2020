@@ -8,6 +8,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Refeicao implements Serializable{
@@ -17,11 +21,16 @@ public class Refeicao implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 50, updatable = true)
+    @NotBlank(message = "Nome obrigatória!")
+    @Length(max = 50, message = "Nome deve ter no máximo 20 caracteres!")
     private String nome;
     @Column(nullable = true, updatable = true)
+    @PositiveOrZero (message = "Calorias deve ser um valor positivo ou zero!")
     private double kcal;
     @Column(nullable = false, length = 50, updatable = true)
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Tipo de refeição é obrigatório!")
+    @Length(max = 50, message = "Tipo de refeição deve ter no máximo 50 caracteres!")
     private TipoRefeicaoEnum tipo;
 
     public Long getId() {
