@@ -8,17 +8,18 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class FuncaoValidator implements ConstraintValidator<EmailValidation, String>{
-    private List<String> funcoes = new ArrayList<String>(Arrays.asList(
-            "Nutricionista", 
-            "Cozinheira", 
-            "Estagiária", 
-            "Bolsista", 
-            "Funcionária")); 
-    
     @Override
-    public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
-        if(arg0 == null) return false;
-        if(arg0.contains("")) return false;
-        return funcoes.contains(arg0);
+    public boolean isValid(String myFuncao, ConstraintValidatorContext arg1) {
+        List<String> funcoes;
+        funcoes = new ArrayList<>(Arrays.asList(
+                "Nutricionista",
+                "Cozinheira",
+                "Estagiária",
+                "Bolsista", 
+                "Funcionária"));
+        
+        if(myFuncao == null) return false;
+        if(myFuncao.contains("")) return false;
+        return funcoes.contains(myFuncao);
     }  
 }

@@ -1,5 +1,6 @@
 package br.edu.iff.projetoCardapio.model;
 
+import br.edu.iff.projetoCardapio.annotation.DataValidation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +38,7 @@ public class Cardapio implements Serializable {
     @Column(nullable = false, updatable = true)
     @Temporal(TemporalType.DATE)
     @NotNull(message = "Data do cardápio deve ser obrigatória!")
-    @FutureOrPresent(message = "Data do cardápio deve ser no presente ou futuro")
+    @DataValidation
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar data_;
     @Column(nullable = false, length = 20, updatable = true)
