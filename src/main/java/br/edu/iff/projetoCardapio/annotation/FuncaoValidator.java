@@ -7,7 +7,7 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class FuncaoValidator implements ConstraintValidator<EmailValidation, String>{
+public class FuncaoValidator implements ConstraintValidator<FuncaoValidation, String>{
     @Override
     public boolean isValid(String myFuncao, ConstraintValidatorContext arg1) {
         List<String> funcoes;

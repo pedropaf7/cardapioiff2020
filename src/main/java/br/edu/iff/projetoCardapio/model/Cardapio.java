@@ -49,10 +49,10 @@ public class Cardapio implements Serializable {
     @NotBlank(message = "Hora de encerramento obrigatória!")
     @Length(max = 50, message = "Hora de encerramento deve ter no máximo 20 caracteres!")
     private String encerramento;
-    @Column(nullable = false, length = 15, updatable = true)
+    @Column(nullable = false, length = 30, updatable = true)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Tipo de cardápio deve ser obrigatório!")
-    @Length(max = 15, message = "Tipo de cardápio deve ter no máximo 15 caracteres!")
+    //@Length(max = 30, message = "Tipo de cardápio deve ter no máximo 30 caracteres!")
     private TipoCardapioEnum tipo;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cardapio", nullable = false)

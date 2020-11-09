@@ -1,5 +1,6 @@
 package br.edu.iff.projetoCardapio.service;
 
+import br.edu.iff.projetoCardapio.model.Cardapio;
 import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.repository.UsuarioRepository;
 import java.util.List;
@@ -26,6 +27,7 @@ public class UsuarioService {
     }
     
     public Usuario save(Usuario user){
+       verificaEmailCadastrado(user.getEmail());
        try{
            return repo.save(user);
        }catch(Exception e){
@@ -34,10 +36,36 @@ public class UsuarioService {
         
     }
     
-    public Usuario update(Usuario user){
+    private void verificaEmailCadastrado(String email){
+        List<Usuario> result = repo.findByEmail(email);
+        if(!result.isEmpty()){
+            throw new RuntimeException("Email já cadastrado");
+        }
+    }
+    
+    
+    public Usuario update(Usuario user, String senhaAtual, String novaSenha, String confirmarNovaSenha){
         Usuario obj = findById(user.getId());
-        return repo.save(user);
-     
+        //Verificar alteração de senha
+        alterarSenha(obj, senhaAtual, novaSenha, confirmarNovaSenha);
+        
+        try{
+            return repo.save(user);
+        }catch(Exception e){
+            throw new RuntimeException("Falha ao atualizar usuário.");   
+        }
+    } 
+    
+    private void alterarSenha(Usuario obj, String senhaAtual, String novaSenha, String confirmarNovaSenha){
+        if(!senhaAtual.isBlank()&& !novaSenha.isBlank() && !confirmarNovaSenha.isBlank()){
+            if(!senhaAtual.equals(obj.getSenha())){
+                throw new RuntimeException("Senha atual está incorreta.");
+            }
+            if(!novaSenha.equals(confirmarNovaSenha)){
+                throw new RuntimeException("Nova Senha e Confirmar Nova Senha não conferem.");
+            }
+            obj.setSenha(novaSenha);
+        }
     }
     
     public void delete(Long id){
@@ -45,7 +73,7 @@ public class UsuarioService {
         try{
             repo.delete(obj);
         }catch(Exception e){
-            throw new RuntimeException("Falha ao deletar o usuário.");
+            throw new RuntimeException("Falha ao excluir o usuário.");
         }
         
     }
