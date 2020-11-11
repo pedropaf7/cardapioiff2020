@@ -1,6 +1,5 @@
 package br.edu.iff.projetoCardapio.service;
 
-import br.edu.iff.projetoCardapio.model.Cardapio;
 import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.repository.UsuarioRepository;
 import java.util.List;
@@ -49,6 +48,7 @@ public class UsuarioService {
         //Verificar alteração de senha
         alterarSenha(obj, senhaAtual, novaSenha, confirmarNovaSenha);
         
+        user.setSenha(obj.getSenha());
         try{
             return repo.save(user);
         }catch(Exception e){

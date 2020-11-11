@@ -1,6 +1,7 @@
 package br.edu.iff.projetoCardapio.repository;
 
 import br.edu.iff.projetoCardapio.model.Cardapio;
+import br.edu.iff.projetoCardapio.model.TipoCardapioEnum;
 import java.util.Calendar;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,8 @@ public interface CardapioRepository extends JpaRepository<Cardapio, Long>{
     @Query("SELECT c FROM Cardapio c WHERE c.data_ = :data_")
     public List<Cardapio> findByData(@Param("data_")Calendar data_);
     
-    public List<Cardapio> findByTipo(String tipo);
+    @Query("SELECT c FROM Cardapio c WHERE c.tipo = :tipo AND c.data = :_data")
+    public List<Cardapio> findByTipoData(@Param("tipo")TipoCardapioEnum tipo, @Param("_data")Calendar _data);
     
     @Query("SELECT c FROM Cardapio c JOIN Refeicao r WHERE r.nome = :nome")
     public List<Cardapio> findByRefeicao(@Param("nome")String nome);
