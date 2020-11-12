@@ -17,6 +17,15 @@ public class CardapioService {
         return repo.findAll();
     }
     
+    public List<Cardapio> findAll(Calendar d){
+        d.set(Calendar.HOUR_OF_DAY, 0);
+        d.set(Calendar.MINUTE, 0);
+        d.set(Calendar.SECOND, 0);
+        d.set(Calendar.MILLISECOND, 0);
+        
+        return repo.findByData(d);
+    }
+    
     public Cardapio findById(Long id){
         Optional <Cardapio> result = repo.findById(id);
         if(result.isEmpty()){
@@ -28,6 +37,7 @@ public class CardapioService {
     
     public Cardapio save(Cardapio c){
        Calendar d;
+       //verifica se o cardapio sendo adicionado não existe no banco
        d = verificaCardapioCadastrado(c.getTipo(), c.getData());
        //adiciona somente a data sem a hora, minutos e segundos no banco
        c.setData(d);
@@ -58,9 +68,11 @@ public class CardapioService {
     
     public Cardapio update(Cardapio c){
         Cardapio obj = findById(c.getId());
-        //não entendi essa parte, pois quando for atualizar algum atributo vai chamar o metodo save que vai chamar
-        //o método verificaCardapioCadastrado que vai entrar na RuntimeException, pois vai atualizar um cardapio que ja existe no banco
+        Calendar d;
+        d = verificaCardapioCadastrado(c.getTipo(), c.getData());              
+              
         try{
+            c.setData(d);
             return repo.save(c);
         }catch(Exception e){
             throw new RuntimeException("Falha ao atualizar cardapio.");   

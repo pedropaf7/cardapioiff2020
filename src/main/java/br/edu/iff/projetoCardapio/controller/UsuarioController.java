@@ -28,7 +28,7 @@ public class UsuarioController {
         
     }
     
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity getOne(@PathVariable("id") Long id){
         return ResponseEntity.ok(service.findById(id));
         
@@ -37,6 +37,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity save (@Valid @RequestBody Usuario user){
         user.setId(null);
+        service.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
     

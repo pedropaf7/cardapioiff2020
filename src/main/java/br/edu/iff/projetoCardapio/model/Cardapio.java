@@ -1,6 +1,7 @@
 package br.edu.iff.projetoCardapio.model;
 
 import br.edu.iff.projetoCardapio.annotation.DataValidation;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,12 +17,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,6 +39,7 @@ public class Cardapio implements Serializable {
     @NotNull(message = "Data do cardápio deve ser obrigatória!")
     @DataValidation
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Calendar data_;
     @Column(nullable = false, length = 20, updatable = true)
     @NotBlank(message = "Hora de abertura obrigatória!")
