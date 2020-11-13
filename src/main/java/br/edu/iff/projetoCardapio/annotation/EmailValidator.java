@@ -9,7 +9,7 @@ public class EmailValidator implements ConstraintValidator<EmailValidation, Stri
     @Override
     public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
         if(arg0 == null) return false;
-        if(arg0.contains("")) return false;
+        if(arg0.contains(" ")) return false;
         return arg0.matches("[\\w\\s]+[@]+[\\w\\s]+[.]+[\\w\\s]+");
         
     }

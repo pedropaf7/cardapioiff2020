@@ -9,6 +9,7 @@ import br.edu.iff.projetoCardapio.repository.CardapioRepository;
 import br.edu.iff.projetoCardapio.repository.UsuarioRepository;
 import java.util.Calendar;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +29,7 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
 	}
 
     @Override
+    @Transactional 
     public void run(String... args) throws Exception {
       //Usuario
         Usuario user1 = new Usuario();

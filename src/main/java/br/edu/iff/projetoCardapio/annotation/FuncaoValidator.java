@@ -1,4 +1,4 @@
-
+ 
 package br.edu.iff.projetoCardapio.annotation;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class FuncaoValidator implements ConstraintValidator<FuncaoValidation, St
                 "Funcionária"));
         
         if(myFuncao == null) return false;
-        if(myFuncao.contains("")) return false;
+        if(myFuncao.contains(" ")) return false;
         return funcoes.contains(myFuncao);
     }  
 }

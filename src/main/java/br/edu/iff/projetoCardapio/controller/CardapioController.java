@@ -27,6 +27,11 @@ public class CardapioController {
     @GetMapping
     public ResponseEntity getAll(@RequestParam(name = "cardapioData") Calendar d){
         return ResponseEntity.ok(service.findAll(d)); 
+    }
+
+    @GetMapping
+    public ResponseEntity getAll(){
+        return ResponseEntity.ok(service.findAll()); 
     }    
     
 
