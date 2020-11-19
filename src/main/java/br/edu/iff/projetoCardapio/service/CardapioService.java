@@ -1,11 +1,13 @@
 package br.edu.iff.projetoCardapio.service;
 
+import br.edu.iff.projetoCardapio.exception.NotFoundException;
 import br.edu.iff.projetoCardapio.model.Cardapio;
 import br.edu.iff.projetoCardapio.model.TipoCardapioEnum;
 import br.edu.iff.projetoCardapio.repository.CardapioRepository;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,7 @@ public class CardapioService {
     public Cardapio findById(Long id){
         Optional <Cardapio> result = repo.findById(id);
         if(result.isEmpty()){
-            throw new RuntimeException ("Cardápio não encontrado.");
+            throw new NotFoundException ("Cardápio não encontrado.");
         }
         return result.get();
     }
@@ -47,6 +49,13 @@ public class CardapioService {
        try{
            return repo.save(c);
        }catch(Exception e){
+            Throwable t = e;
+            while (t.getCause() != null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw ((ConstraintViolationException) t);
+                }
+            }
            throw new RuntimeException("Falha ao salvar o cardápio.");
        }         
         
@@ -67,16 +76,37 @@ public class CardapioService {
         return d; 
     }
     
+        private Calendar verificaCardapioAtualizar(TipoCardapioEnum t, Calendar d){
+        d.set(Calendar.HOUR_OF_DAY, 0);
+        d.set(Calendar.MINUTE, 0);
+        d.set(Calendar.SECOND, 0);
+        d.set(Calendar.MILLISECOND, 0);
+        
+        List<Cardapio> result = repo.findByTipoData(t,d);
+
+         if((result.size()) > 1){
+            throw new RuntimeException("Cardapio já cadastrado");
+        }
+        return d; 
+    }
+    
     
     public Cardapio update(Cardapio c){
         Cardapio obj = findById(c.getId());
         Calendar d;
-        d = verificaCardapioCadastrado(c.getTipo(), c.getData());              
+        d = verificaCardapioAtualizar(c.getTipo(), c.getData());              
               
         try{
             c.setData(d);
             return repo.save(c);
         }catch(Exception e){
+            Throwable t = e;
+            while (t.getCause() != null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw ((ConstraintViolationException) t);
+                }
+            }
             throw new RuntimeException("Falha ao atualizar cardapio.");   
         }
     }

@@ -2,7 +2,6 @@ package br.edu.iff.projetoCardapio.model;
 
 import br.edu.iff.projetoCardapio.annotation.EmailValidation;
 import br.edu.iff.projetoCardapio.annotation.FuncaoValidation;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.ArrayList;

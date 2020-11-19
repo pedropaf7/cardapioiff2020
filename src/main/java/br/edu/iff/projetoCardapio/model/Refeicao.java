@@ -30,7 +30,6 @@ public class Refeicao implements Serializable{
     @Column(nullable = false, length = 50, updatable = true)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Tipo de refeição é obrigatório!")
-    //@Length(max = 50, message = "Tipo de refeição deve ter no máximo 50 caracteres!")
     private TipoRefeicaoEnum tipo;
 
     public Long getId() {

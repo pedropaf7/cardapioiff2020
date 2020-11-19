@@ -52,7 +52,6 @@ public class Cardapio implements Serializable {
     @Column(nullable = false, length = 30, updatable = true)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Tipo de cardápio deve ser obrigatório!")
-    //@Length(max = 30, message = "Tipo de cardápio deve ter no máximo 30 caracteres!")
     private TipoCardapioEnum tipo;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cardapio", nullable = false)

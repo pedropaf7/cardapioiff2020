@@ -41,7 +41,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
     
-    @PutMapping(path = "{/id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody Usuario user){
         user.setId(id);
         service.update(user, "", "", "");

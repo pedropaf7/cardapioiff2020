@@ -1,9 +1,11 @@
 package br.edu.iff.projetoCardapio.service;
 
+import br.edu.iff.projetoCardapio.exception.NotFoundException;
 import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class UsuarioService {
     public Usuario findById(Long id){
         Optional<Usuario> result = repo.findById(id);
         if(result.isEmpty()){
-            throw new RuntimeException ("Usuário não encontrado.");
+            throw new NotFoundException ("Usuário não encontrado.");
         }
         return result.get();
     }
@@ -52,6 +54,13 @@ public class UsuarioService {
         try{
             return repo.save(user);
         }catch(Exception e){
+            Throwable t = e;
+            while (t.getCause() != null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw ((ConstraintViolationException) t);
+                }
+            }
             throw new RuntimeException("Falha ao atualizar usuário.");   
         }
     } 

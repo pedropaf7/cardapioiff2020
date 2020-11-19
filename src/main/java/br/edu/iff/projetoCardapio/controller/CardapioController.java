@@ -23,11 +23,6 @@ public class CardapioController {
     
     @Autowired
     private CardapioService service;
-    
-    @GetMapping
-    public ResponseEntity getAll(@RequestParam(name = "cardapioData") Calendar d){
-        return ResponseEntity.ok(service.findAll(d)); 
-    }
 
     @GetMapping
     public ResponseEntity getAll(){
@@ -42,14 +37,14 @@ public class CardapioController {
     }
 
     @PostMapping
-    public ResponseEntity save (@Valid @RequestBody Cardapio card){
+    public ResponseEntity save (@RequestBody Cardapio card){
         card.setId(null);
         service.save(card);
         return ResponseEntity.status(HttpStatus.CREATED).body(card);
     }
     
     
-    @PutMapping(path = "{/id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody Cardapio card){
         card.setId(id);
         service.update(card);

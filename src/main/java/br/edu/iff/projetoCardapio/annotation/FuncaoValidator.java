@@ -14,9 +14,9 @@ public class FuncaoValidator implements ConstraintValidator<FuncaoValidation, St
         funcoes = new ArrayList<>(Arrays.asList(
                 "Nutricionista",
                 "Cozinheira",
-                "Estagiária",
+                "Estagiaria",
                 "Bolsista", 
-                "Funcionária"));
+                "Funcionaria"));
         
         if(myFuncao == null) return false;
         if(myFuncao.contains(" ")) return false;
