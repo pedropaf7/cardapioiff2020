@@ -42,9 +42,9 @@ public class CardapioService {
     public Cardapio save(Cardapio c){
        Calendar d;
        //verifica se o cardapio sendo adicionado não existe no banco
-       d = verificaCardapioCadastrado(c.getTipo(), c.getData());
+       d = verificaCardapioCadastrado(c.getTipo(), c.getData_());
        //adiciona somente a data sem a hora, minutos e segundos no banco
-       c.setData(d);
+       c.setData_(d);
        
        try{
            return repo.save(c);
@@ -94,10 +94,10 @@ public class CardapioService {
     public Cardapio update(Cardapio c){
         Cardapio obj = findById(c.getId());
         Calendar d;
-        d = verificaCardapioAtualizar(c.getTipo(), c.getData());              
+        d = verificaCardapioAtualizar(c.getTipo(), c.getData_());              
               
         try{
-            c.setData(d);
+            c.setData_(d);
             return repo.save(c);
         }catch(Exception e){
             Throwable t = e;
@@ -116,7 +116,7 @@ public class CardapioService {
         try{
             repo.delete(obj);
         }catch(Exception e){
-            throw new RuntimeException("Falha ao excluir o cardapio.");
+            throw new RuntimeException("Falha ao excluir o cardapio. Exclua-o do usuário que está usando.");
     }
 
 }

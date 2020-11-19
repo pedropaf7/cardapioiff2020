@@ -61,7 +61,7 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
       //Cardapio1
         Cardapio card1 = new Cardapio();
         card1.setAbertura("07h30min");
-        card1.setData(Calendar.getInstance());
+        card1.setData_(Calendar.getInstance());
         card1.setEncerramento("09h30min");
         card1.setTipo(TipoCardapioEnum.MANHA);       
         card1.setRefeicoes(List.of(ref1,ref2,ref3));
@@ -70,7 +70,7 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
       //Cardapio2
         Cardapio card2 = new Cardapio();
         card2.setAbertura("11h30min");
-        card2.setData(Calendar.getInstance());
+        card2.setData_(Calendar.getInstance());
         card2.setEncerramento("13h30min");
         card2.setTipo(TipoCardapioEnum.ALMOCO);
         card2.setRefeicoes(List.of(ref3,ref1)); 

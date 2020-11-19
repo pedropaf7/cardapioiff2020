@@ -34,7 +34,7 @@ public class Cardapio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, updatable = true)
+    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.DATE)
     @NotNull(message = "Data do cardápio deve ser obrigatória!")
     @DataValidation
@@ -67,11 +67,11 @@ public class Cardapio implements Serializable {
         this.id = id;
     }
 
-    public Calendar getData() {
+    public Calendar getData_() {
         return data_;
     }
 
-    public void setData(Calendar data) {
+    public void setData_(Calendar data) {
         this.data_ = data;
     }
 
