@@ -2,7 +2,6 @@ package br.edu.iff.projetoCardapio.controller;
 
 import br.edu.iff.projetoCardapio.model.Cardapio;
 import br.edu.iff.projetoCardapio.service.CardapioService;
-import java.util.Calendar;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,7 +35,7 @@ public class CardapioController {
     }
 
     @PostMapping
-    public ResponseEntity save (@RequestBody Cardapio card){
+    public ResponseEntity save (@Valid @RequestBody Cardapio card){
         card.setId(null);
         service.save(card);
         return ResponseEntity.status(HttpStatus.CREATED).body(card);
@@ -45,7 +43,7 @@ public class CardapioController {
     
     
     @PutMapping(path = "/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody Cardapio card){
+    public ResponseEntity update(@PathVariable("id") Long id, @Valid @RequestBody Cardapio card){
         card.setId(id);
         service.update(card);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
