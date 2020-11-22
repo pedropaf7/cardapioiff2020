@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="imports-css(title)">
+        <title th:text="${title}">.....</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link th:href="@{~/webjars/bootstrap/4.5.0/css/bootstrap.min.css}" rel="stylesheet"/>
+    </head>
+    <body>
+        <div th:fragment="barramenu(pagina)">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #19882c;">
+                    <a class="navbar-brand" href="/"> 
+                        <img th:src="@{~/images/logo-cardapio-iff-br.png}" width="65" height="45" class="d-inline-block align-center"/>
+                        campus Campos Centro
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggler="collapse" data-targert="#textoNavbar" aria-controls="textoNavbar" aria-expanded="false" aria-label="Alterna navegação">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="textoNavbar">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item" th:classappend="${pagina == 'usuarios' ? 'active' : ''}">
+                                <a class="nav-link" th:href="@{~/usuarios}">Usuarios</a>  
+                            </li>
+                            <li class="nav-item" th:classappend="${pagina == 'cardapios' ? 'active' : ''}">
+                                <a class="nav-link" th:href="@{~/cardapios}">Cardapios</a>  
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div th:fragment="imports-js">
+            <script th:src="@{~/webjars/jquery/3.5.1/jquery.min.js}"/>
+        </div>
+    </body>
+</html>
