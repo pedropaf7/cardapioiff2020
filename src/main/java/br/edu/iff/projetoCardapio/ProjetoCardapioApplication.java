@@ -31,6 +31,12 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
     @Override
     @Transactional 
     public void run(String... args) throws Exception {
+        
+        Calendar dataTeste = Calendar.getInstance();
+        dataTeste.set(Calendar.YEAR,2020);
+        dataTeste.set(Calendar.MONTH,Calendar.DECEMBER);
+        dataTeste.set(Calendar.DAY_OF_MONTH,25);
+        
       //Usuario
         Usuario user1 = new Usuario();
         user1.setNome("Pedro");
@@ -42,20 +48,20 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
         Refeicao ref1 = new Refeicao();
         ref1.setKcal(2.5);
         ref1.setNome("Arroz");
-        ref1.setTipo(TipoRefeicaoEnum.GUARNICAO);
+        ref1.setTipo(TipoRefeicaoEnum.GUARNIÇÃO);
     
         
      //Refeicão2
         Refeicao ref2 = new Refeicao();
         ref2.setKcal(1.5);
         ref2.setNome("Feijão");
-        ref2.setTipo(TipoRefeicaoEnum.GUARNICAO);  
+        ref2.setTipo(TipoRefeicaoEnum.GUARNIÇÃO);  
         
      //Refeicão3
         Refeicao ref3 = new Refeicao();
         ref3.setKcal(5.5);
         ref3.setNome("Bife");
-        ref3.setTipo(TipoRefeicaoEnum.PROTEINA); 
+        ref3.setTipo(TipoRefeicaoEnum.PROTEÍNA); 
         
         
       //Cardapio1
@@ -63,16 +69,16 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
         card1.setAbertura("07h30min");
         card1.setData_(Calendar.getInstance());
         card1.setEncerramento("09h30min");
-        card1.setTipo(TipoCardapioEnum.MANHA);       
+        card1.setTipo(TipoCardapioEnum.LANCHE_DA_MANHÃ);       
         card1.setRefeicoes(List.of(ref1,ref2,ref3));
         cardapioRepo.save(card1);
                 
       //Cardapio2
         Cardapio card2 = new Cardapio();
         card2.setAbertura("11h30min");
-        card2.setData_(Calendar.getInstance());
+        card2.setData_(dataTeste);
         card2.setEncerramento("13h30min");
-        card2.setTipo(TipoCardapioEnum.ALMOCO);
+        card2.setTipo(TipoCardapioEnum.ALMOÇO);
         card2.setRefeicoes(List.of(ref3,ref1)); 
         
         cardapioRepo.save(card2);

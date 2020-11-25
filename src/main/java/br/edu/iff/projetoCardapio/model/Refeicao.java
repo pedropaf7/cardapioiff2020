@@ -22,7 +22,7 @@ public class Refeicao implements Serializable{
     private Long id;
     @Column(nullable = false, length = 50, updatable = true)
     @NotBlank(message = "Nome obrigatória!")
-    @Length(max = 50, message = "Nome deve ter no máximo 20 caracteres!")
+    @Length(max = 50, message = "Nome deve ter no máximo 50 caracteres!")
     private String nome;
     @Column(nullable = true, updatable = true)
     @PositiveOrZero (message = "Calorias deve ser um valor positivo ou zero!")

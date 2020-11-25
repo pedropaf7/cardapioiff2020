@@ -1,9 +1,9 @@
 package br.edu.iff.projetoCardapio.model;
 
 public enum TipoRefeicaoEnum {
-    PROTEINA,
+    PROTEÍNA,
     SALADA,
-    GUARNICAO,
+    GUARNIÇÃO,
     SUCO,
     FRUTA,
     SOBREMESA,

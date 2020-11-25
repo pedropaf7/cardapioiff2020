@@ -43,11 +43,11 @@ public class Cardapio implements Serializable {
     private Calendar data_;
     @Column(nullable = false, length = 20, updatable = true)
     @NotBlank(message = "Hora de abertura obrigatória!")
-    @Length(max = 50, message = "Hora de abertura deve ter no máximo 20 caracteres!")
+    @Length(max = 20, message = "Hora de abertura deve ter no máximo 20 caracteres!")
     private String abertura;
     @Column(nullable = false, length = 20, updatable = true)
     @NotBlank(message = "Hora de encerramento obrigatória!")
-    @Length(max = 50, message = "Hora de encerramento deve ter no máximo 20 caracteres!")
+    @Length(max = 20, message = "Hora de encerramento deve ter no máximo 20 caracteres!")
     private String encerramento;
     @Column(nullable = false, length = 30, updatable = true)
     @Enumerated(EnumType.STRING)

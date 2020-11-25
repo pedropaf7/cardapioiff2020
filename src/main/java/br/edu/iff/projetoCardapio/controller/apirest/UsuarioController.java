@@ -1,4 +1,4 @@
-package br.edu.iff.projetoCardapio.controller;
+package br.edu.iff.projetoCardapio.controller.apirest;
 
 import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.service.UsuarioService;

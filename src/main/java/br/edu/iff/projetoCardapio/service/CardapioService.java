@@ -116,7 +116,7 @@ public class CardapioService {
         try{
             repo.delete(obj);
         }catch(Exception e){
-            throw new RuntimeException("Falha ao excluir o cardapio. Exclua-o do usuário que está usando.");
+            throw new RuntimeException("Essa ação somente é possível a partir do usuário.");
     }
 
 }
