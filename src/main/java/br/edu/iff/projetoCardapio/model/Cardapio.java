@@ -37,7 +37,7 @@ public class Cardapio implements Serializable {
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.DATE)
     @NotNull(message = "Data do cardápio deve ser obrigatória!")
-    @DataValidation
+    //@DataValidation
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Calendar data_;
