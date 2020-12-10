@@ -10,8 +10,74 @@
                 <h4>Cadastro de usuários
                     <a class="btn btn-primary float-right" th:href="@{~/usuarios}" role="button">voltar</a>
                 </h4>
-                <p>fazer ainda</p>
             </div>
+            <div th:replace="~{fragmentos :: mensagens}"></div>
+            <form th:object="${usuario}" th:action="@{~/usuarios/usuario/{id}(id=${usuario.id})}" method="post" class="card-body">
+                <input type="hidden" th:field="*{id}"/>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label  for="nome">Nome:</label>
+                        <input maxlength="50"  th:field="*{nome}" type="text" id="nome" class="form-control" placeholder="Nome" required="required"/>
+                    </div>
+               
+                    <div class="form-group col-md-4">
+                        <label  for="funcao">Função:</label>
+                        <input maxlength="50"  th:field="*{funcao}" type="text" class="form-control" placeholder="Função" required="required"/>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label  for="email">E-mail</label>
+                        <input maxlength="50"  th:field="*{email}" type="email" class="form-control" placeholder="E-mail" required="required"/>
+                    </div>
+                </div>
+                <div class="form-row" th:if="${usuario.id==null}">
+                    <div class="form-group col-md-6">
+                        <label for="senha">Senha:</label>
+                        <input th:field="*{senha}" type="password" class="form-control" minlength="8" required="required"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="confirmarSenha">Confirmar Senha:</label>
+                        <input name="confirmarSenha" type="password" class="form-control"  minlength="8" required="required"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <h6 th:if="${usuario.id!=null}" class="form-group col-md-12">Seus cardápios:</h6>
+                        <ul>
+                            <li th:each="card, i : ${usuario.cardapios}" th:text="${#dates.format(card.data_,'EEEE, dd/MM/yyyy')+' | '+card.tipo}" >
+                                <a class="btn btn-warning btn-sm "  target="_blank" th:href="@{'~/cardapios/cardapio/'+${card.id}}"  role="button">Editar</a>
+                                <a class="btn btn-danger btn-sm"  th:href="@{'~/cardapios/'+${card.id}+'/deletar'}"onclick="return confirm('Deseja realmente deletar esse cardápio?')">Excluir</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                        <h6>Permissões:</h6>
+                        <div class="form-check form-check-inline" th:each="permissao,i : ${permissoes}">
+                            <input class="form-check-input" type="checkbox" th:name="${'permissoes['+i.index+'].id'}"  th:value="${permissao.id}" th:checked="${#lists.contains(usuario.permissoes, permissao)? 'checked' : false}" />
+                            <label class="form-check-label" th:text="${permissao.nome}">t</label>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    <!--
+                    <div class="form-group col-md-6">
+                        <input type="hidden" th:each="tipoCard, i : ${cardapios}" th:value="${tipoCard}"/>
+                        <h6>Cardápios:</h6>
+                        <select class="form-control" th:field="*{cardapios}">
+                            <option th:each="c : ${cardapios}" th:text="${#dates.format(c.data_,'EEEE, dd/MM/yyyy')+' | '+c.tipo}" th:value="${cardapios}"></option>
+                        </select>
+                    </div>
+                    -->
+                    
+                </div>
+                
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-success" value="Salvar"/>
+                </div>
+            </form>
              
         </div>
         <div th:replace="~{fragmentos :: imports-js}"/>  

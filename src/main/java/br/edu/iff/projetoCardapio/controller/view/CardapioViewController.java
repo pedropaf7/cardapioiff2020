@@ -66,7 +66,7 @@ public class CardapioViewController {
     }
     
     @PostMapping(path = "/cardapio/{id}")
-    public String update(@Valid @ModelAttribute Cardapio cardapio, BindingResult result, @PathVariable("id") Long id, Model model) {
+    public String update(@ModelAttribute Cardapio cardapio, BindingResult result, @PathVariable("id") Long id, Model model) {
         model.addAttribute("tiposCardapios", TipoCardapioEnum.values());
         model.addAttribute("tiposRefeicoes", TipoRefeicaoEnum.values());
         if (result.hasErrors()) {

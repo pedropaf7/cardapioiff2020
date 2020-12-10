@@ -2,7 +2,7 @@ package br.edu.iff.projetoCardapio.service;
 
 import br.edu.iff.projetoCardapio.exception.NotFoundException;
 import br.edu.iff.projetoCardapio.model.Cardapio;
-import br.edu.iff.projetoCardapio.model.TipoCardapioEnum;
+import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.repository.CardapioRepository;
 import java.util.Calendar;
 import java.util.List;
@@ -40,11 +40,7 @@ public class CardapioService {
     
     
     public Cardapio save(Cardapio c){
-       Calendar d;
-       //verifica se o cardapio sendo adicionado não existe no banco
-       d = verificaCardapioCadastrado(c.getTipo(), c.getData_());
-       //adiciona somente a data sem a hora, minutos e segundos no banco
-       c.setData_(d);
+        c = verificaCardapioDataTipo(c);
        
        try{
            return repo.save(c);
@@ -57,47 +53,49 @@ public class CardapioService {
                 }
             }
            throw new RuntimeException("Falha ao salvar o cardápio.");
-       }         
-        
-}
-    //só pode adicionar um novo cardapio, se ele já não existir. Um cardápio igual seria ter a mesma data e ser do mesmo tipo.
-    private Calendar verificaCardapioCadastrado(TipoCardapioEnum t, Calendar d){
-        //ja quero que salve no banco sem as horas, minutos, segundo e milisegundos, será que vai dar algum problema no futuro?
-        d.set(Calendar.HOUR_OF_DAY, 0);
-        d.set(Calendar.MINUTE, 0);
-        d.set(Calendar.SECOND, 0);
-        d.set(Calendar.MILLISECOND, 0);
-        
-        List<Cardapio> result = repo.findByTipoData(t,d);
-
-         if(!result.isEmpty()){
-            throw new RuntimeException("Cardapio já cadastrado");
-        }
-        return d; 
+       }          
     }
     
-        private Calendar verificaCardapioAtualizar(TipoCardapioEnum t, Calendar d){
-        d.set(Calendar.HOUR_OF_DAY, 0);
-        d.set(Calendar.MINUTE, 0);
-        d.set(Calendar.SECOND, 0);
-        d.set(Calendar.MILLISECOND, 0);
+    private Cardapio verificaCardapioDataTipo(Cardapio c){
+        Calendar obj = c.getData_();
         
-        List<Cardapio> result = repo.findByTipoData(t,d);
+        //já cadastra no banco somente a data, sem o tempo
+        obj.set(Calendar.HOUR_OF_DAY, 0);
+        obj.set(Calendar.MINUTE, 0);
+        obj.set(Calendar.SECOND, 0);
+        obj.set(Calendar.MILLISECOND, 0);
 
-         if((result.size()) > 1){
-            throw new RuntimeException("Cardapio já cadastrado");
+        Calendar dataAtual = Calendar.getInstance();
+        dataAtual.set(Calendar.HOUR_OF_DAY, 0);
+        dataAtual.set(Calendar.MINUTE, 0);
+        dataAtual.set(Calendar.SECOND, 0);
+        dataAtual.set(Calendar.MILLISECOND, 0);
+        
+        //valida esse cardapio para ver se a data é atual ou futura
+        if(!(obj.equals(dataAtual) || obj.after(dataAtual))){
+            throw new RuntimeException("Data do cardápio inválida. Coloque a data de hoje ou no futuro!");  
         }
-        return d; 
+        //verifica se já existe esse cardapio - mesma data e mesmo tipo
+        List<Cardapio> result = repo.findByTipoData(c.getTipo(),obj);
+        if (!result.isEmpty()) {
+            throw new RuntimeException("Cardápio já cadastrado");
+        }
+        
+        c.setData_(obj);
+        
+        return c; 
     }
     
     
     public Cardapio update(Cardapio c){
-        Cardapio obj = findById(c.getId());
-        Calendar d;
-        d = verificaCardapioAtualizar(c.getTipo(), c.getData_());              
+        Cardapio obj = findById(c.getId());          
               
         try{
-            c.setData_(d);
+            c.setData_(obj.getData_());
+            List<Cardapio> result = repo.findByTipoData(c.getTipo(), c.getData_());
+            if (result.size() > 1) {
+                throw new RuntimeException("Cardápio já cadastrado");
+            }
             return repo.save(c);
         }catch(Exception e){
             Throwable t = e;
@@ -107,7 +105,7 @@ public class CardapioService {
                     throw ((ConstraintViolationException) t);
                 }
             }
-            throw new RuntimeException("Falha ao atualizar cardapio.");   
+            throw new RuntimeException("Falha ao atualizar cardápio.");   
         }
     }
       
@@ -117,9 +115,8 @@ public class CardapioService {
             repo.delete(obj);
         }catch(Exception e){
             throw new RuntimeException("Essa ação somente é possível a partir do usuário.");
+        }
     }
-
-}
 
 }
 

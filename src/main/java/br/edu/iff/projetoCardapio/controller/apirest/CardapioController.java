@@ -35,7 +35,7 @@ public class CardapioController {
     }
 
     @PostMapping
-    public ResponseEntity save (@Valid @RequestBody Cardapio card){
+    public ResponseEntity save (@RequestBody Cardapio card){
         card.setId(null);
         service.save(card);
         return ResponseEntity.status(HttpStatus.CREATED).body(card);
@@ -43,7 +43,7 @@ public class CardapioController {
     
     
     @PutMapping(path = "/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @Valid @RequestBody Cardapio card){
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody Cardapio card){
         card.setId(id);
         service.update(card);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

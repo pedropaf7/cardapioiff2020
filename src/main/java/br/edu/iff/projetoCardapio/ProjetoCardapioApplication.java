@@ -1,11 +1,13 @@
 package br.edu.iff.projetoCardapio;
 
 import br.edu.iff.projetoCardapio.model.Cardapio;
+import br.edu.iff.projetoCardapio.model.Permissao;
 import br.edu.iff.projetoCardapio.model.Refeicao;
 import br.edu.iff.projetoCardapio.model.TipoCardapioEnum;
 import br.edu.iff.projetoCardapio.model.TipoRefeicaoEnum;
 import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.repository.CardapioRepository;
+import br.edu.iff.projetoCardapio.repository.PermissaoRepository;
 import br.edu.iff.projetoCardapio.repository.UsuarioRepository;
 import java.util.Calendar;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class ProjetoCardapioApplication implements CommandLineRunner{
@@ -22,6 +25,8 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
         private UsuarioRepository usuarioRepo;
         @Autowired
         private CardapioRepository cardapioRepo;
+        @Autowired
+        private PermissaoRepository permissaoRepo;
                 
                 
 	public static void main(String[] args) {
@@ -31,18 +36,33 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
     @Override
     @Transactional 
     public void run(String... args) throws Exception {
+        //Permissão
+        Permissao p1 = new Permissao();
+        p1.setNome("ADMIN");
+        Permissao p2 = new Permissao();
+        p2.setNome("FUNC");
+        permissaoRepo.saveAll(List.of(p1,p2));
+        
         
         Calendar dataTeste = Calendar.getInstance();
         dataTeste.set(Calendar.YEAR,2020);
         dataTeste.set(Calendar.MONTH,Calendar.DECEMBER);
         dataTeste.set(Calendar.DAY_OF_MONTH,25);
         
-      //Usuario
+      //Usuarios
         Usuario user1 = new Usuario();
         user1.setNome("Pedro");
         user1.setEmail("pedropaf7@gmail.com");
         user1.setFuncao("Nutricionista");
-        user1.setSenha("123456789");
+        user1.setSenha(new BCryptPasswordEncoder().encode("12345678"));
+        user1.setPermissoes(List.of(p1));
+        
+        Usuario user2 = new Usuario();
+        user2.setNome("Paulo");
+        user2.setEmail("paulo@gmail.com");
+        user2.setFuncao("Estagiaria");
+        user2.setSenha(new BCryptPasswordEncoder().encode("87654321"));
+        user2.setPermissoes(List.of(p2));
         
       //Refeicão1
         Refeicao ref1 = new Refeicao();
@@ -84,8 +104,10 @@ public class ProjetoCardapioApplication implements CommandLineRunner{
         cardapioRepo.save(card2);
              
         user1.setCardapios(List.of(card1,card2));
+        user2.setCardapios(List.of(card2));
         
         usuarioRepo.save(user1);
+        usuarioRepo.save(user2);
 
     }
 

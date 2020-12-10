@@ -2,6 +2,7 @@ package br.edu.iff.projetoCardapio.repository;
 
 import br.edu.iff.projetoCardapio.model.Cardapio;
 import br.edu.iff.projetoCardapio.model.TipoCardapioEnum;
+import br.edu.iff.projetoCardapio.model.Usuario;
 import java.util.Calendar;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,5 +23,4 @@ public interface CardapioRepository extends JpaRepository<Cardapio, Long>{
     
     @Query("SELECT c FROM Cardapio c where c.data_ BETWEEN :inicio AND :fim")
     public List<Cardapio> findCardapioEntreDatas(Calendar inicio, Calendar fim);
-
 }

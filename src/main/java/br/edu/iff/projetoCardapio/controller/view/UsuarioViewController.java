@@ -1,8 +1,9 @@
 
 package br.edu.iff.projetoCardapio.controller.view;
 
-import br.edu.iff.projetoCardapio.model.Cardapio;
 import br.edu.iff.projetoCardapio.model.Usuario;
+import br.edu.iff.projetoCardapio.repository.PermissaoRepository;
+import br.edu.iff.projetoCardapio.service.CardapioService;
 import br.edu.iff.projetoCardapio.service.UsuarioService;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UsuarioViewController {
     @Autowired
     private UsuarioService service;
+    @Autowired
+    private CardapioService cardService;
+    @Autowired
+    private PermissaoRepository permissaoRepo;
     
     @GetMapping
     public String getAll(Model model) {
@@ -34,16 +39,21 @@ public class UsuarioViewController {
     
     @GetMapping(path = "/usuario")
     public String cadastro(Model model) {
-        model.addAttribute("usuario", new Cardapio());
+        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("permissoes", permissaoRepo.findAll());
+       // model.addAttribute("cardapios", cardService.findAll());
         return "formUsuario";
     }
     
-    @PostMapping(path = "/usuario")
+    @PostMapping(path = "/usuario") 
     public String save(@Valid @ModelAttribute Usuario usuario, 
             BindingResult result,
             @RequestParam("confirmarSenha") String confirmarSenha, 
             Model model) {
         
+        //Valores a serem retornados
+        model.addAttribute("permissoes", permissaoRepo.findAll());
+                
         if(result.hasErrors()){
             model.addAttribute("msgErros", result.getAllErrors());
             return "formUsuario";
@@ -67,8 +77,9 @@ public class UsuarioViewController {
     } 
     
     @GetMapping(path = "/usuario/{id}")
-    public String alterar(@PathVariable("id") Long id, Model model) {
+    public String atualizacao(@PathVariable("id") Long id, Model model) {
         model.addAttribute("usuario", service.findById(id));
+        model.addAttribute("permissoes", permissaoRepo.findAll());
         return "formUsuario";
     }
     
@@ -77,6 +88,9 @@ public class UsuarioViewController {
             BindingResult result,
             @PathVariable("id") Long id,
             Model model) {
+        
+        //Valores a serem retornados
+        model.addAttribute("permissoes", permissaoRepo.findAll());
         
         List<FieldError> list = new ArrayList<>();
         for(FieldError fe : result.getFieldErrors()){

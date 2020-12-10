@@ -16,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderColumn;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -32,7 +34,7 @@ public class Usuario implements Serializable {
     @NotBlank(message = "Nome obrigatório!")
     @Length(max = 50, message = "Nome deve ter no máximo 50 caracteres!")
     private String nome;
-    @Column(nullable = false, length = 30, updatable = true)
+    @Column(nullable = false, length = 50, updatable = true)
     @NotBlank(message = "Função obrigatória!")
     @Length(max = 50, message = "Função deve ter no máximo 50 caracteres!")
     @FuncaoValidation
@@ -48,6 +50,18 @@ public class Usuario implements Serializable {
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @Valid
     private List<Cardapio> cardapios = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @OrderColumn
+    @Size(min = 1, message = "Usuário deve ter no mínimo 1 permissão!")
+    private List<Permissao> permissoes = new ArrayList<>();
+
+    public List<Permissao> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
+    }
 
     public Long getId() {
         return id;
