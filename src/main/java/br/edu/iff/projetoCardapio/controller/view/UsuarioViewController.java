@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -120,5 +122,53 @@ public class UsuarioViewController {
         service.delete(id);
         return "redirect:/usuarios";
     }
+    
+    //------------ MEUS DADOS  ----------------
+    @GetMapping(path = "/meusdados")
+    public String getMeusDados(@AuthenticationPrincipal User user, Model model) {
+        Usuario usuario = service.findByEmail(user.getUsername());
+        model.addAttribute("usuario", usuario);
+        return "formMeusDados";
+    }
+    
+    @PostMapping(path = "/meusdados")
+    public String updateMeusDados(
+            @Valid @ModelAttribute Usuario usuario,
+            BindingResult result,
+            @AuthenticationPrincipal User user,
+            @RequestParam("senhaAtual") String senhaAtual,
+            @RequestParam("novaSenha") String novaSenha,
+            @RequestParam("confirmarNovaSenha") String confirmarNovaSenha,
+            Model model) {
+
+        List<FieldError> list = new ArrayList<>();
+        for (FieldError fe : result.getFieldErrors()) {
+            if (!fe.getField().equals("senha") && !fe.getField().equals("permissoes")) {
+                list.add(fe);
+            }
+        }
+        if (!list.isEmpty()) {
+            model.addAttribute("msgErros", list);
+            return "formMeusDados";
+        }
+
+        Usuario usuarioBD = service.findByEmail(user.getUsername());
+        if (!usuarioBD.getId().equals(usuario.getId())) {
+            throw new RuntimeException("Acesso negado.");
+        }
+        try {
+            usuario.setPermissoes(usuarioBD.getPermissoes());
+            service.update(usuario, senhaAtual, novaSenha, confirmarNovaSenha);
+            model.addAttribute("msgSucesso", "Usuário atualizado com sucesso.");
+            model.addAttribute("usuario", usuario);
+            return "formMeusDados";
+        } catch (Exception e) {
+            model.addAttribute("msgErros", new ObjectError("usuario", e.getMessage()));
+            return "formMeusDados";
+        }
+    }
+    
+    
+    
 
 }

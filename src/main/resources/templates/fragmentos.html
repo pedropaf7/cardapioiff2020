@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <head th:fragment="imports-css(title)">
         <title th:text="${title}">.....</title>
         <meta charset="UTF-8"/>
@@ -19,13 +21,17 @@
                     </button>
                     <div class="collapse navbar-collapse" id="textoNavbar">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item" th:classappend="${pagina == 'usuarios' ? 'active' : ''}">
+                            <li class="nav-item" th:classappend="${pagina == 'usuarios' ? 'active' : ''}" sec:authorize="hasRole('ROLE_ADMIN')">
                                 <a class="nav-link" th:href="@{~/usuarios}">Usuários</a>  
                             </li>
                             <li class="nav-item" th:classappend="${pagina == 'cardapios' ? 'active' : ''}">
                                 <a class="nav-link" th:href="@{~/cardapios}">Cardápios</a>  
                             </li>
+                            <li class="nav-item" th:classappend="${pagina == 'meusdados' ? 'active' : ''}">
+                                <a class="nav-link" th:href="@{~/usuarios/meusdados}">Meus Dados</a>  
+                            </li>
                         </ul>
+                        <a sec:authorize="isAuthenticated()" class="btn btn-outline-danger" style="float: right" th:href="@{~/logout}" role="button">Sair</a>
                     </div>
                 </nav>
             </div>

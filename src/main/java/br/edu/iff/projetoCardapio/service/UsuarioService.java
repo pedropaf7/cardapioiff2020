@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -76,8 +75,9 @@ public class UsuarioService {
     } 
     
     private void alterarSenha(Usuario obj, String senhaAtual, String novaSenha, String confirmarNovaSenha){
+        BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
         if(!senhaAtual.isBlank()&& !novaSenha.isBlank() && !confirmarNovaSenha.isBlank()){
-            if(!senhaAtual.equals(obj.getSenha())){
+            if(!crypt.matches(senhaAtual, obj.getSenha())){
                 throw new RuntimeException("Senha atual está incorreta.");
             }
             if(!novaSenha.equals(confirmarNovaSenha)){
