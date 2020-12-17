@@ -2,7 +2,6 @@ package br.edu.iff.projetoCardapio.service;
 
 import br.edu.iff.projetoCardapio.exception.NotFoundException;
 import br.edu.iff.projetoCardapio.model.Cardapio;
-import br.edu.iff.projetoCardapio.model.Usuario;
 import br.edu.iff.projetoCardapio.repository.CardapioRepository;
 import java.util.Calendar;
 import java.util.List;

@@ -43,7 +43,7 @@ public class UsuarioViewController {
     public String cadastro(Model model) {
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("permissoes", permissaoRepo.findAll());
-       // model.addAttribute("cardapios", cardService.findAll());
+        model.addAttribute("cardapios", cardService.findAll());
         return "formUsuario";
     }
     
@@ -55,6 +55,7 @@ public class UsuarioViewController {
         
         //Valores a serem retornados
         model.addAttribute("permissoes", permissaoRepo.findAll());
+        model.addAttribute("cardapios", cardService.findAll());
                 
         if(result.hasErrors()){
             model.addAttribute("msgErros", result.getAllErrors());
@@ -82,6 +83,7 @@ public class UsuarioViewController {
     public String atualizacao(@PathVariable("id") Long id, Model model) {
         model.addAttribute("usuario", service.findById(id));
         model.addAttribute("permissoes", permissaoRepo.findAll());
+        model.addAttribute("cardapios", cardService.findAll());
         return "formUsuario";
     }
     
@@ -93,6 +95,7 @@ public class UsuarioViewController {
         
         //Valores a serem retornados
         model.addAttribute("permissoes", permissaoRepo.findAll());
+        model.addAttribute("cardapios", cardService.findAll());
         
         List<FieldError> list = new ArrayList<>();
         for(FieldError fe : result.getFieldErrors()){
@@ -167,8 +170,4 @@ public class UsuarioViewController {
             return "formMeusDados";
         }
     }
-    
-    
-    
-
 }

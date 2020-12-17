@@ -14,6 +14,7 @@
             <div th:replace="~{fragmentos :: mensagens}"></div>
             <form th:object="${usuario}" th:action="@{~/usuarios/usuario/{id}(id=${usuario.id})}" method="post" class="card-body">
                 <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{cardapios}"/>
                 
                 <div class="form-row">
                     <div class="form-group col-md-4">
@@ -47,31 +48,27 @@
                             <li th:each="card, i : ${usuario.cardapios}">
                                 <span th:text="${#dates.format(card.data_,'EEEE, dd/MM/yyyy')+' | '+card.tipo}"></span>
                                 <a class="btn btn-warning btn-sm "  target="_blank" th:href="@{'~/cardapios/cardapio/'+${card.id}}"  role="button">Editar</a>
-                                <a class="btn btn-danger btn-sm"  th:href="@{'~/cardapios/'+${card.id}+'/deletar'}"onclick="return confirm('Deseja realmente deletar esse cardápio?')">Excluir</a>
+                                <a class="btn btn-danger btn-sm"  th:href="@{'~/cardapios/'+${card.id}+'/deletar'}"onclick="return confirm('Deseja realmente deletar esse cardápio?')">Remover</a>
                             </li>
                         </ul>
                     </div>
                     
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-2">
                         <h6>Permissões:</h6>
                         <div class="form-check form-check-inline" th:each="permissao,i : ${permissoes}">
                             <input class="form-check-input" type="checkbox" th:name="${'permissoes['+i.index+'].id'}"  th:value="${permissao.id}" th:checked="${#lists.contains(usuario.permissoes, permissao)? 'checked' : false}" />
                             <label class="form-check-label" th:text="${permissao.nome}">t</label>
                         </div>
                     </div>
-                    
-                    
-                    
-                    
-                    <!--
-                    <div class="form-group col-md-6">
-                        <input type="hidden" th:each="tipoCard, i : ${cardapios}" th:value="${tipoCard}"/>
+                   
+                    <div class="form-group col-md-4">
+                        
                         <h6>Cardápios:</h6>
-                        <select class="form-control" th:field="*{cardapios}">
-                            <option th:each="c : ${cardapios}" th:text="${#dates.format(c.data_,'EEEE, dd/MM/yyyy')+' | '+c.tipo}" th:value="${cardapios}"></option>
+                        <select class="form-control" multiple="multiple">
+                            <option th:each="c, i : ${cardapios}" th:text="${#dates.format(c.data_,'EEEE, dd/MM/yyyy')+' | '+c.tipo}" th:value="${c}"></option>
                         </select>
                     </div>
-                    -->
+                   
                     
                 </div>
                 

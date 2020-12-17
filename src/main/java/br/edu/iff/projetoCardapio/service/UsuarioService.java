@@ -59,7 +59,8 @@ public class UsuarioService {
         //Verificar alteração de senha
         alterarSenha(obj, senhaAtual, novaSenha, confirmarNovaSenha);
         
-        user.setSenha(obj.getSenha());
+        user.setSenha(obj.getSenha());      
+        obj.setEmail(user.getEmail());
         try{
             return repo.save(user);
         }catch(Exception e){

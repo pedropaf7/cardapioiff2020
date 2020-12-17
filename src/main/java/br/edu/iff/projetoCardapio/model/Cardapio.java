@@ -1,6 +1,5 @@
 package br.edu.iff.projetoCardapio.model;
 
-import br.edu.iff.projetoCardapio.annotation.DataValidation;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.ArrayList;

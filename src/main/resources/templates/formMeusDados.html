@@ -52,8 +52,7 @@
                     <div class="form-group col-md-6">
                         <h6 th:if="${usuario.id!=null}" class="form-group col-md-12">Seus cardápios:</h6>
                         <ul>
-                            <li th:each="card, i : ${usuario.cardapios}">
-                                <span th:text="${#dates.format(card.data_,'EEEE, dd/MM/yyyy')+' | '+card.tipo}"></span>
+                            <li th:each="card, i : ${usuario.cardapios}" th:text="${#dates.format(card.data_,'EEEE, dd/MM/yyyy')+' | '+card.tipo}" >
                                 <a class="btn btn-warning btn-sm "  target="_blank" th:href="@{'~/cardapios/cardapio/'+${card.id}}"  role="button">Editar</a>
                                 <a class="btn btn-danger btn-sm"  th:href="@{'~/cardapios/'+${card.id}+'/deletar'}"onclick="return confirm('Deseja realmente deletar esse cardápio?')">Excluir</a>
                             </li>
