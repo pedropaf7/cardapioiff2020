@@ -16,9 +16,10 @@ Pequena simulação de um cardápio do refeitório do IFF.
 - Spring Security
 - Maven, Hibernate
 - JPA, API Rest
-- Banco de dados MySQL
+- Banco de dados MySQL (postgres para uso no heroku)
 - Thymeleaf
 - Netbeans
+- Heroku
 
 <img src="https://user-images.githubusercontent.com/33420168/102003940-9da85280-3cea-11eb-8f81-80d1985d9971.PNG" width="75%" height="60%">
 <img src="https://user-images.githubusercontent.com/33420168/102003943-9f721600-3cea-11eb-81c9-7dab31a6b053.PNG" width="75%" height="60%">
